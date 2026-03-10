@@ -375,6 +375,28 @@ input:focus {
     animation: slideIn 0.5s ease;
 }
 
+/* Footer */
+footer {
+  padding: 4rem 0 2rem;
+  background: var(--bg-light);
+  border-top: 1px solid var(--glass-border);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.copyright {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
 /* Decorative */
 .decorative {
     position: fixed;
