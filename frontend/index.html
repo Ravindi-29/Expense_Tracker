@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pastel Expense Tracker | Monthly Budget Plan</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body class="light-mode">
+    <div id="app">
+        <!-- Auth Section -->
+        <section id="auth-section" class="section">
+            <div class="auth-container card">
+                <h1 class="script-font">Monthly</h1>
+                <p class="subtitle">Budget Plan</p>
+
+                <div class="tabs">
+                    <button id="login-tab" class="tab-btn active">Login</button>
+                    <button id="register-tab" class="tab-btn">Register</button>
+                </div>
+
+                <form id="auth-form">
+                    <div id="username-field" class="form-group hidden">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Choose a username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" id="auth-btn" class="primary-btn">Login</button>
+                </form>
+                <p id="auth-message" class="message"></p>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Section -->
+        <section id="dashboard-section" class="section hidden">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <h2 class="script-font">Monthly</h2>
+                    <span class="nav-subtitle">Budget</span>
+                </div>
+                <div class="nav-actions">
+                    <select id="currency-selector" class="currency-select" title="Choose Currency">
+                        <option value="$">USD ($)</option>
+                        <option value="Rs.">LKR (Rs.)</option>
+                        <option value="€">EUR (€)</option>
+                        <option value="£">GBP (£)</option>
+                        <option value="¥">JPY (¥)</option>
+                    </select>
+                    <button id="dark-mode-toggle" class="icon-btn" title="Toggle Dark Mode">
+                        <i data-lucide="moon"></i>
+                    </button>
+                    <button id="logout-btn" class="icon-btn" title="Logout">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <div class="container">
+                <!-- Overview Cards -->
+                <div class="overview-grid">
+                    <div class="card balance-card">
+                        <h3>Total Balance</h3>
+                        <p id="total-balance" class="amount">$0.00</p>
+                    </div>
+                    <div class="card income-card">
+                        <h3>Income</h3>
+                        <p id="total-income" class="amount plus">+$0.00</p>
+                    </div>
+                    <div class="card expense-card">
+                        <h3>Expenses</h3>
+                        <p id="total-expenses" class="amount minus">-$0.00</p>
+                    </div>
+                </div>
+
+                <!-- Chart & Stats -->
+                <div class="dashboard-grid">
+                    <div class="card chart-container">
+                        <h3>Income vs Expenses</h3>
+                        <canvas id="expense-chart"></canvas>
+                    </div>
+
+                    <!-- Add Transaction Form -->
+                    <div class="card form-container">
+                        <h3>Add New Transaction</h3>
+                        <form id="transaction-form">
+                            <div class="form-group">
+                                <label for="text">Description</label>
+                                <input type="text" id="text" placeholder="e.g. Salary, Rent, Grocery" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="number" id="amount" placeholder="0.00" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="type">Type</label>
+                                    <select id="type">
+                                        <option value="expense">Expense</option>
+                                        <option value="income">Income</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category">
+                                    <option value="Food">Food</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Bills">Bills</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Salary">Salary</option>
+                                    <option value="Savings">Savings</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="primary-btn">Add Transaction</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div class="card history-container">
+                    <div class="history-header">
+                        <h3>Transaction History</h3>
+                        <div class="filters">
+                            <input type="text" id="search" placeholder="Search...">
+                            <select id="filter-category">
+                                <option value="all">All Categories</option>
+                                <option value="Food">Food</option>
+                                <option value="Transport">Transport</option>
+                                <option value="Bills">Bills</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <ul id="list" class="list">
+                        <!-- Transactions will be added here -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Notification / Modal for Monthly Summary -->
+        <div id="summary-modal" class="modal hidden">
+            <div class="modal-content card">
+                <span class="close-btn">&times;</span>
+                <h2 class="script-font">Monthly Summary</h2>
+                <p id="summary-text">You have received your monthly expense summary.</p>
+                <div id="summary-details" class="summary-details">
+                    <!-- Summary data will be here -->
+                </div>
+                <div class="modal-actions">
+                    <button id="save-summary-btn" class="primary-btn">Save to History</button>
+                    <button id="delete-summary-btn" class="secondary-btn">Delete Summary</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="notification-toast" class="toast hidden">
+            <p>You have received your monthly expense summary.</p>
+        </div>
+    </div>
+
+    <!-- Decorative Elements (Like the stars in the image) -->
+    <div class="decorative star-1">⭐</div>
+    <div class="decorative star-2">⭐</div>
+    <div class="decorative ribbon">🎀</div>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
